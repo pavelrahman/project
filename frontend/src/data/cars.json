@@ -1,0 +1,49 @@
+[
+    {
+        "id":"0",
+        "tagline":"Audi-A3",
+        "model":{
+            "id":"0",
+            "manufactor":{"id":"2", "name": "Audi", "country": "usa", "logo":"https://s8096.pcdn.co/wp-content/uploads/2014/10/audi-logo.jpg"},
+            "modelCode":"A3",  
+            "carModelImage":"https://media.zigcdn.com/media/model/2017/Apr/audi-a3-sedan-right_320x160.jpg"
+        },
+        "mileage":"19 Kmpl to 20 Kmpl",
+        "year":"2017",
+        "transmission":"Automatic",
+        "price":"Tk. 33.12 - 36.12 lakh",
+        "horsePower":"143bhp@3500-4000rpm",
+        "propellant":"Fuel",
+        "status":"In Stock",
+        "carImages":[
+            {"id":"1", "img":"https://media.zigcdn.com/media/model/2018/Oct/front-1-4-left-1452995886_930x620.jpg"},
+            {"id":"2", "img":"https://media.zigcdn.com/media/model/2018/Oct/side-view-1112836659_930x620.jpg"},
+            {"id":"3", "img":"https://media.zigcdn.com/media/model/2018/Oct/rear-3-4-left-1935866446_930x620.jpg"}
+        ]
+
+    },
+    {
+        "id":"1",
+        "tagline":"Audi-R8",
+        "model":{
+            "id":"1",
+            "manufactor":{"id":"2", "name": "Audi", "country": "usa", "logo":"https://s8096.pcdn.co/wp-content/uploads/2014/10/audi-logo.jpg"},
+            "modelCode":"R8",  
+            "carModelImage":"https://media.zigcdn.com/media/model/2016/Feb/audi_r8_320x160.jpg"
+        },
+        "mileage":"19 Kmpl to 20 Kmpl",
+        "year":"2017",
+        "transmission":"Automatic",
+        "price":"Tk. 33.12 - 36.12 lakh",
+        "horsePower":"143bhp@3500-4000rpm",
+        "propellant":"Fuel",
+        "status":"",
+        "carImages":[
+            {"id":"1", "img":"https://media.zigcdn.com/media/model/2018/Oct/front-1-4-left-439269853_930x620.jpg"},
+            {"id":"2", "img":"https://media.zigcdn.com/media/model/2018/Oct/side-view-1899455404_930x620.jpg"},
+            {"id":"3", "img":"https://media.zigcdn.com/media/model/2018/Oct/front-1036214591_930x620.jpg"}
+        ]
+
+    }
+    
+]
