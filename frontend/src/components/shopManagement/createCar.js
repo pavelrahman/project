@@ -4,9 +4,7 @@ import Select from 'react-select';
 class CreateCar extends Component{
     constructor(props){
         super(props);
-
         this.state={
-            manufacturer:'',
             tagline:'',
             model:'',
             mileage:'',
@@ -16,157 +14,129 @@ class CreateCar extends Component{
             price:'',
             horse_power:'',
             propellant:'',
-            car_image:'',
+            fileList:[],
+            fileLink:'',
 
-            id:'',
-            editMode:false,
-            manufacturerList:[],
-            modelList:[]
+            modelList:[],
+            modelOption:[],
         }
-
-
+        
+        this.uploadFile = this.uploadFile.bind(this);
+        this.uploadImage = this.uploadImage.bind(this)
+        this.formClear = this.formClear.bind(this);
         this.saveData = this.saveData.bind(this);
-        this.onFileSelect = this.onFileSelect.bind(this);
         this.update = this.update.bind(this);
     }
+    
+    componentDidMount(){
+        let tempList = JSON.parse(localStorage.getItem('model'));
+        console.log(tempList);
+        let tempModelOption = [];
+        if(tempList){
+            tempList.forEach((model, index)=>{
+                tempModelOption.push({ value: index, label: model.modelCode })    
+            });
+        }
+        this.setState({
+            modelOption:tempModelOption,
+            modelList:tempList,        
+        });
+    }
+    
+    formClear(){
+        this.setState({
+            tagline:'',
+            mileage:'',
+            year:'',
+            price:'',
+            horse_power:'',
+            propellant:'',
+        })
+    }
 
+    uploadFile(e){
+        // console.log('upload file calling');
+        // console.log(e.target.value);
+        // let {fileList} = this.state;
+        // console.log(e.target.files[0]);
+        // let filePath = e.target.files[0];
+        // let filename = e.target.value.replace(/^.*\\/, "");
+        // fileList.push({
+        //     FilePath: filePath,
+        //     FileName: filename,
+        //     IsNewUpload: true
+        // });
+        // e.target.value = null;
+
+        // console.log(fileList);
+       
+        // this.setState({
+        //     fileList:[].target.files[0],
+        // });
+    }
+
+    uploadImage(){
+        let {fileList, fileLink} = this.state;
+        fileList.push(fileLink);
+        this.setState({fileList:fileList, fileLink:''});
+    }
+
+    saveData(event){
+        var {tagline, model, mileage, year, status, transmission, price, horse_power, propellant, fileList} =  this.state;
+        let flag = false;
+        let tempList = JSON.parse(localStorage.getItem('car'))?JSON.parse(localStorage.getItem('car')):[];
+        var object = {
+            'tagline':tagline,
+            'model':this.state.modelList[model.value],
+            'mileage':mileage,
+            'year':year,
+            'status':status,
+            'transmission':transmission,
+            'price':price,
+            'horse_power':horse_power,
+            'propellant':propellant,
+            'fileList':fileList,
+        }
+        
+        if(tagline && model && mileage && year && transmission && price && horse_power && propellant){
+            if(JSON.parse(localStorage.getItem('car'))){
+                if(tempList!==null){
+                    tempList.forEach((car)=>{
+                        console.log(car.tagline.toLowerCase());
+                        console.log(tagline.toLowerCase());
+                        console.log(car.tagline.toLowerCase() === tagline.toLowerCase());
+                        console.log(car.model);
+                        console.log(this.state.modelList[model.value].modelCode.toLowerCase())
+                        // console.log(car.model.label.toLowerCase() === this.state.modelList[model.value].modelCode.toLowerCase());
+                        if(car.tagline.toLowerCase() === tagline.toLowerCase() || car.model.modelCode.toLowerCase() === this.state.modelList[model.value].modelCode.toLowerCase()){
+                            flag = true;
+                        }
+                    });
+                }
+                if(!flag){
+                    tempList.push(object);
+                }else{alert('duplicate entry not allowed')}
+            }else{
+                tempList.push(object);
+            }
+            localStorage.setItem('car',JSON.stringify(tempList));
+        }else{
+            alert('fields can\'t be empty');
+        }
+
+        this.formClear();
+    }
 
     update(id){
         console.log('update is calling');
     }
 
-    onFileSelect(e){
-        this.setState({
-            logo: e.target.files[0],
-        });
-        console.log('files');
-        console.log(e.target.files);
-    }
-
-    componentDidMount(){
-        const queryParams = new URLSearchParams(this.props.location.search);
-        var id = queryParams.get('id');
-        if(id){
-            
-            fetch("http://127.0.0.1:8000/car/api/v1/cars/"+id+"/", {
-                method: 'GET',
-                })
-                .then(res => res.json())
-                .then(response =>{
-                    console.log(response);
-                    this.setState({
-                        tagline:response.tagline,
-                        mileage:response.mileage,
-                        year:response.year,
-                        status:response.status,
-                        transmission:response.transmission,
-                        price:response.price,
-                        horse_power:response.horse_power,
-                        propellant:response.propellant,
-                        car_image:response.car_image,
-                        editMode:true,
-                        id:id,
-                    });
-                    fetch("http://127.0.0.1:8000/car/api/v1/manufacturer/"+response.manufacturer+"/", {
-                    method: 'GET',
-                    })
-                    .then(res => res.json())
-                    .then(response =>{
-                        this.setState({manufacturer:{value: response.id, label: response.manufacturer_name}});              
-                    })
-                .catch(error => console.error('Error:', error));
-
-                fetch("http://127.0.0.1:8000/car/api/v1/models/"+response.model+"/", {
-                    method: 'GET',
-                    })
-                    .then(res => res.json())
-                    .then(response =>{
-                        this.setState({model:{value: response.id, label: response.model_code}});                 
-                    })
-                .catch(error => console.error('Error:', error));
-                
-
-
-                })
-                .catch(error => console.error('Error:', error));
-
-        }else{
-            //Get All Manufactures
-        fetch("http://127.0.0.1:8000/car/api/v1/manufacturer/", {
-            method: 'GET',
-            })
-            .then(res => res.json())
-            .then(response =>{
-                var tempList = [];
-                response.forEach((manufacturer)=>{
-                    tempList.push({value: manufacturer.id, label: manufacturer.manufacturer_name})
-                })
-                this.setState({
-                    manufacturerList:tempList,
-                });
-                
-    })
-    .catch(error => console.error('Error:', error));
-    //Get All Models
-    fetch("http://127.0.0.1:8000/car/api/v1/models/", {
-            method: 'GET',
-            })
-            .then(res => res.json())
-            .then(response =>{
-                var tempList = [];
-                response.forEach((m)=>{
-                    tempList.push({value: m.id, label: m.model_code})
-                });
-                this.setState({
-                    modelList:tempList,
-                });
-    })
-    .catch(error => console.error('Error:', error));
-        }
-    }
-
-    saveData(event){
-        var {manufacturer, tagline, model, mileage, year, status, transmission, price, horse_power, propellant, car_image} = this.state;
-        let form_data = new FormData();
-        form_data.append('manufacturer', manufacturer.value);
-        form_data.append('tagline', tagline);
-        form_data.append('model', model.value);
-        form_data.append('mileage', mileage);
-        form_data.append('year', year);
-        form_data.append('status', status);
-        form_data.append('transmission', transmission);
-        form_data.append('price', price);
-        form_data.append('horse_power', horse_power);
-        form_data.append('propellant', propellant);
-        form_data.append('car_image', car_image);
-
-        fetch("http://127.0.0.1:8000/car/api/v1/cars/", {
-            method: 'POST',
-            body: form_data,
-        })
-        .then(res => res.json())
-        .then(response => console.log('Successfully Saved'))
-        .catch(error => console.error('Error:', error));
-    }
-
-    onFileSelect(e){
-        this.setState({
-            car_image: e.target.files[0],
-        });
-    }
-
     render(){
         return <div className='container' style={{margin:'15px'}}>
+            <div className='row'><h3>Add Car</h3></div>
             <div className='row'>
-                <div className='col-md-4'>
-                    <h3>Create Car</h3>
-                    <label htmlFor="exampleInputEmail1">Manufacturer:</label>
-                    <Select
-                        value={this.state.manufacturer}
-                        onChange={(e)=>{this.setState({manufacturer:e})}}
-                        options={this.state.manufacturerList}
-                    />
-                    <label htmlFor="exampleInputEmail1">Tagline:</label>
+                <div className='col-md-4' style={{paddingLeft:'0px'}}>
+                    <label><strong>Tagline:</strong></label>
                     <input
                         type="text" 
                         value={this.state.tagline}
@@ -174,13 +144,15 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-                    <label htmlFor="exampleInputEmail1">Model:</label>
+
+                    <label><strong>Model:</strong></label>
                     <Select
                         value={this.state.model}
                         onChange={(e)=>{this.setState({model:e})}}
-                        options={this.state.modelList}
+                        options={this.state.modelOption}
                     />
-                    <label htmlFor="exampleInputEmail1">Mileage:</label>
+
+                    <label><strong>Mileage:</strong></label>
                     <input
                         type="text" 
                         value={this.state.mileage}
@@ -188,7 +160,8 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-                    <label htmlFor="exampleInputEmail1">Year:</label>
+
+                    <label><strong>Year:</strong></label>
                     <input
                         type="text" 
                         value={this.state.year}
@@ -196,22 +169,32 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-
-                    <div className="form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1" onChange={(e)=>{this.setState({status: !this.state.status,})}}/>
-                        <label className="form-check-label" htmlFor="exampleCheck1">In Stock</label>
+                    {/* <label><strong>Select Car Image</strong></label>
+                    <input className='form-control-file' type="file" onChange={(e) => this.uploadFile(e)} style={{marginTop:'10px'}} /> */}
+                    <label><strong>Insert Car Image</strong></label>
+                    <div className="input-group mb-3" style={{marginTop:'5px', marginBottom:'5px'}}>
+                        <input value={this.state.fileLink} type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>this.setState({fileLink:e.target.value})}/>
+                        <div className="input-group-append">
+                            <button className="btn btn-outline-secondary" type="button" onClick={this.uploadImage}>Add</button>
+                        </div>
                     </div>
-
-                    <label htmlFor="exampleInputEmail1">Transmission:</label>
-                    <input
-                        type="text" 
+                </div>
+                <div className='col-md-4' style={{paddingLeft:'0px'}}>
+                    <label><strong>Transmission:</strong></label>
+                    <Select
                         value={this.state.transmission}
-                        onChange={(e)=>{this.setState({transmission:e.target.value})}}
-                        className="form-control"
-                        placeholder="Enter manufacturer name"
+                        onChange={(e)=>{this.setState({transmission:e})}}
+                        options={
+                            [
+                                { value: 'Manual', label: 'Manual' },
+                                { value: 'Automatic', label: 'Automatic' },
+                                { value: 'Continuously variable', label: 'Continuously variable' },
+                                { value: 'Semi-automatic and dual-clutch', label: 'Semi-automatic and dual-clutch' }
+                            ]
+                        }
                     />
 
-                    <label htmlFor="exampleInputEmail1">Price:</label>
+                    <label><strong>Price:</strong></label>
                     <input
                         type="number" 
                         value={this.state.price}
@@ -219,8 +202,7 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-
-                    <label htmlFor="exampleInputEmail1">Horse power:</label>
+                    <label><strong>Horse power:</strong></label>
                     <input
                         type="text" 
                         value={this.state.horse_power}
@@ -229,7 +211,7 @@ class CreateCar extends Component{
                         placeholder="Enter manufacturer name"
                     />
 
-                    <label htmlFor="exampleInputEmail1">Propellant:</label>
+                    <label><strong>Propellant:</strong></label>
                     <input
                         type="text" 
                         value={this.state.propellant}
@@ -237,9 +219,10 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-                    <input type="file" onChange={(e) => this.onFileSelect(event)} style={{marginTop:'10px'}} />
-                    {this.state.editMode?<button onClick={this.update.bind(this, this.state.id)} className='btn btn-primary' style={{marginTop: '10px'}} >Update</button>:<button onClick={this.saveData.bind(this)} className='btn btn-primary' style={{marginTop: '10px'}} >Save</button>}
                 </div>
+            </div>
+            <div className='row'>
+                <button onClick={this.saveData.bind(this)} className='btn btn-primary' style={{marginTop: '10px'}} >Save</button>
             </div>
         </div>
     }

@@ -66,10 +66,10 @@ class MfgList extends React.Component{
     }
 
     render(){
-        let show = this.state.mfgList.map((mfg, index)=>{
+        let show = this.state.mfgList?this.state.mfgList.map((mfg, index)=>{
             return <ManufacturerCard mfg={mfg} key={index} delete={this.deleteMfg.bind(this, index)} edit={this.editMfg.bind(this, index)}/>
-        });
-        return this.state.mfgList.length>0?<div className='container' style={{margin:'10px'}}>
+        }):null;
+        return this.state.mfgList?<div className='container' style={{margin:'10px'}}>
         <input
             style={{marginTop:'40px', marginBottom:'40px'}}
             name="manufacturer_name" 
