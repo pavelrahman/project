@@ -42,14 +42,10 @@ class CreateMfg extends Component{
             }
         });
         if(!flag){
-            let id = tempList[tempList.length-1].id+1;
-            object.id = id;
             tempList.push(object);
         }else{alert('duplicate entry not allowed')}  
         
        }else{
-           let id = 0;
-           object.id = id;
            tempList.push(object);
        }
        if(mfgName!=='' && mfgCountry !=='' && mfgLogo!==''){
