@@ -1,10 +1,14 @@
+/*
+    *In this js file mfg stands for manufacturer.
+*/
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CarList from './shopManagement/carlist';
-import CreateManufacture from './shopManagement/createManufacture';
+import CreateMfg from './shopManagement/createMfg';
 import CreateManufactureModel from './shopManagement/createManufactureModel';
 import CreateCar from './shopManagement/createCar';
-import ManufacturerList from './shopManagement/manufacturerList';
+import MfgList from './shopManagement/mfgList';
 import CarModelList from './shopManagement/carModelList';
 import CreateCarList from './shopManagement/createCarList';
 import CreateShowroom from './shopManagement/createShowroom';
@@ -31,7 +35,7 @@ var NavBar = ()=>{
           List
         </a>
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a className="dropdown-item" href="/manufactorlist">Manufactors</a>
+          <a className="dropdown-item" href="/manufacturerlist">Manufacturer</a>
           <a className="dropdown-item" href="/modellist">Car Models</a>
           <a className="dropdown-item" href="/carlist">Cars</a>
           <a className="dropdown-item" href="/createcar">Showrooms</a>
@@ -43,7 +47,7 @@ var NavBar = ()=>{
           Create
         </a>
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a className="dropdown-item" href="/createmanufactor">Create Manufactor</a>
+          <a className="dropdown-item" href="/createmanufacturer">Create Manufactor</a>
           <a className="dropdown-item" href="/createmodel">Create Car Model</a>
           <a className="dropdown-item" href="/createshowroom">Create Showroom</a>
           <a className="dropdown-item" href="/createcar">Create Car</a>
@@ -57,55 +61,20 @@ var NavBar = ()=>{
 
 
 class App extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      manufactorList:[],
-      modelList:[],
-      ShowroomList:[],
-      carList:[]
-    }
-    this.addCar = this.addCar.bind(this);
-    this.addManufacturer = this.addManufacturer.bind(this);
-    this.addShowroom = this.addShowroom.bind(this);
-    this.addModel = this.addModel.bind(this);
-  }
 
-  addCar(){
-  
-  }
-
-  addManufacturer(object){
-    console.log('adding manufacturer');
-    console.log(object);
-    let tempList = [];
-    tempList.push(object);
-    this.setState({manufactorList:tempList});
-  }
-
-  addShowroom(){
-
-  }
-
-  addModel(){
-
-  }
-
-    render(){
-
-        return <div className='App'>
-
-                <Router>
-                    <Route path="/" component={NavBar} />
-                    <Route path="/createmanufactor" exact render={()=><CreateManufacture addManufacturer={this.addManufacturer} />} />
-                    <Route path="/createmodel" exact render={()=><CreateManufactureModel addModel={this.addModel} manufactorList={this.state.manufactorList}/>} />
-                    <Route path="/createcar" exact component={CreateCar} />
-                    <Route path="/manufactorlist" exact component={ManufacturerList} />
-                    <Route path="/modellist" exact component={CarModelList} />
-                    <Route path="/carlist" exact component={CreateCarList} />
-                    <Route path="/createshowroom" exact component={CreateShowroom} />
-                    <Route path="/cardetails" exact component={CarDetails} />
-                </Router>
+  render(){
+    return <div className='App'>
+              <Router>
+                  <Route path="/" component={NavBar} />
+                  <Route path="/createmanufacturer" exact render={()=><CreateMfg />} />
+                  <Route path="/createmodel" exact render={()=><CreateManufactureModel />} />
+                  <Route path="/createcar" exact component={CreateCar} />
+                  <Route path="/manufacturerlist" exact component={MfgList} />
+                  <Route path="/modellist" exact component={CarModelList} />
+                  <Route path="/carlist" exact component={CreateCarList} />
+                  <Route path="/createshowroom" exact component={CreateShowroom} />
+                  <Route path="/cardetails" exact component={CarDetails} />
+              </Router>
 
         </div>
     }
