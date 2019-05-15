@@ -6,7 +6,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CarList from './shopManagement/carlist';
 import CreateMfg from './shopManagement/createMfg';
-import CreateManufactureModel from './shopManagement/createManufactureModel';
+import CreateMfgModel from './shopManagement/createMfgModel';
 import CreateCar from './shopManagement/createCar';
 import MfgList from './shopManagement/mfgList';
 import CarModelList from './shopManagement/carModelList';
@@ -67,7 +67,7 @@ class App extends React.Component{
               <Router>
                   <Route path="/" component={NavBar} />
                   <Route path="/createmanufacturer" exact render={()=><CreateMfg />} />
-                  <Route path="/createmodel" exact render={()=><CreateManufactureModel />} />
+                  <Route path="/createmodel" exact render={()=><CreateMfgModel />} />
                   <Route path="/createcar" exact component={CreateCar} />
                   <Route path="/manufacturerlist" exact component={MfgList} />
                   <Route path="/modellist" exact component={CarModelList} />
