@@ -10,7 +10,7 @@ let ManufacturerCard = (props)=>{
                 <img className="card-img-top" style={{width:'150px', height:'150px', margin:'50px'}} src={props.mfg.mfgLogo} alt="Card image cap"/>
                 <div className="card-body">
                     <h2 className="card-title">{props.mfg.mfgName.toUpperCase()}</h2>
-                    <p className="card-text"><strong>Country:</strong> {props.mfg.mfgcountry}</p>
+                    <p className="card-text"><strong>Country:</strong> {props.mfg.mfgCountry}</p>
                     <a href='/manufacturerlist' className="btn btn-primary" onClick={props.delete} style={{marginLeft:'10px'}}>Delete</a>
                 </div>
             </div>

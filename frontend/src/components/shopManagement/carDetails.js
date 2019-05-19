@@ -4,69 +4,64 @@ import showroomsJSON from '../../data/showrooms.json';
 
 let CarDetailForAllCar = (props)=>{
     var show = false;
+    let images = props.car.fileList.map((image, index)=>{
+        let carouselClass = index == '0'?"carousel-item active":"carousel-item"
+        return <div className={carouselClass} key={index}>
+                    <img className="d-block w-100" src={image} alt="First slide"/>
+               </div>
+    })
     return <div className="container">
-                <h1 className="my-4">{props.car.tagline}
-                </h1>
+                <h1>{props.car.tagline}</h1>
 
                 <div className="row">
 
                     <div className="col-md-7">
-                        <div id="carouselExampleSlidesOnly" className="carousel slide" data-ride="carousel">
+                        <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                             <div className="carousel-inner">
-                                <div className="carousel-item active">
-                                    <img className="d-block w-100" src={props.car.carImages[0].img} alt="First slide"/>
-                                </div>
-                                <div className="carousel-item">
-                                    <img className="d-block w-100" src={props.car.carImages[1].img} alt="Second slide"/>
-                                </div>
-                                <div className="carousel-item">
-                                    <img className="d-block w-100" src={props.car.carImages[2].img} alt="Third slide"/>
-                                </div>
+                                {images}
                             </div>
+                            <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span className="sr-only">Previous</span>
+                            </a>
+                            <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span className="sr-only">Next</span>
+                            </a>
                         </div>
                     </div>
 
                     <div className="col-md-4">
-                        <h3 className="my-3">Car Details</h3><hr/>
                         <div className='row'>
-                            <div className='col-md-6'>
-                                <p><strong>HorsePower: </strong>{props.car.horsePower}</p>
-                                <p><strong>Propellant: </strong>{props.car.propellant}</p>
-                                <p><strong>Transmission: </strong>{props.car.transmission}</p>
+                            <div className='col-md-12'>
+                                <h3><em>Car Details</em></h3>
+                                <p><strong>Manufacturer: </strong>{props.car.model.modelMfg.mfgName}</p>
+                                <p><strong>Model: </strong>{props.car.model.modelCode}</p>
+                                <p><strong>Transmission: </strong>{props.car.transmission.value}</p>
+                                <p><strong>Year: </strong>{props.car.year}</p>
+                                <p><strong>Mileage: </strong>{props.car.mileage}</p>
+                                <p><strong>Status: </strong>{props.car.status?'In Stock':'Out Of Stock'}</p>
                                 <p><strong>Price: </strong>{props.car.price}</p>
                             </div>
-                            <div className='col-md-6'>
-                                <p><strong>Name: </strong>{props.car.tagline}</p>
-                                <p><strong>Manufacturer: </strong>{props.car.model.manufactor.name}</p>
-                                <p><strong>Model: </strong>{props.car.model.modelCode}</p>
-                                <p><strong>Mileage: </strong>{props.car.mileage}</p>
-                            </div>
                         </div>
-                        
                         {props.show?<div className='row'>
-                            <h3 className="my-3">Showroom Details</h3>
-                            {props.car.name?<ul>
-                                <li><strong>Showroom Name: {}</strong></li>
-                                <li><strong>Address: </strong></li>
-                                <li><strong>Owner: </strong></li>
-                            </ul>:<h6>No showroom details</h6>}
-                            
+                            <h3>Showroom Details</h3>
+                            <ul>
+                                <li><strong>Name: </strong>{props.showroom.showroomName}</li>
+                                <li><strong>Owner: </strong>{props.showroom.showroomOwner}</li>
+                                <li><strong>Address: </strong>{props.showroom.showroomAddress}</li>
+                            </ul>
+                           
                         </div>:null}
-                        <a href="#" onClick={props.hideShow}>{props.show?'Hide ':'Show '}Showroom Details</a>
+                        <a  href='#' onClick={props.hideShow}>{props.show?'Hide Details':'Show Details'}</a> 
                     </div>
-
                 </div>
-    </div>
+            </div>
 }
 
 
 
 
-let CarDetailForShowroomCar = (props)=>{
-    return <div className="container">
-        <h1>Showroom cars details</h1>
-    </div>
-}
 
 
 class CarDetails extends React.Component{
@@ -74,8 +69,8 @@ class CarDetails extends React.Component{
         super(props);
         this.state = {
             car:null,
+            showroom:null,
             show:false,
-            allcar:false,
         }
 
         this.hideShow = this.hideShow.bind(this);
@@ -88,30 +83,23 @@ class CarDetails extends React.Component{
     componentDidMount(){
         const queryParams = new URLSearchParams(this.props.location.search);
         var value = queryParams.get('value');
-        let id = value.split('-')[0];
-        let allcar = value.split('-')[1];
-        let showroomId = value.split('-')[2];
-        console.log('car :', id);
-        console.log('');
-        if(allcar === true){
-            console.log(allcar, 'if calling');
-            console.log(carsJSON[id]);
-            this.setState({car:carsJSON[id], allcar:true});
-        }else{
-            console.log(allcar, 'if calling');
-            console.log(showroomsJSON[id]);
-            this.setState({car:showroomsJSON[id], allcar:false});
+        let tokens = value.split('-');
+        let carId = tokens[0];
+        let showroomId = tokens[1];
+        
 
-        }
+
+        let allshowroom = JSON.parse(localStorage.getItem('showroom'));
+        let showroom = allshowroom[showroomId];
+        let car = allshowroom[showroomId].showroomCars[carId];
+        this.setState({car:car, showroom:showroom});
     }
 
 
 
     render(){
-        console.log(this.state.car);
         return <div className='container'>
-                {this.state.car && this.state.allcar?<CarDetailForAllCar car={this.state.car} hideShow={this.hideShow} show={this.state.show}/>:null}
-                {this.state.car && this.state.allcar?null:<CarDetailForShowroomCar car={this.state.car} hideShow={this.hideShow} show={this.state.show}/>}
+            {this.state.car&&this.state.showroom?<CarDetailForAllCar car={this.state.car} showroom={this.state.showroom} hideShow={this.hideShow} show={this.state.show}/>:null}
         </div>
     }
 }

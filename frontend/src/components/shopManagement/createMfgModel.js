@@ -72,8 +72,8 @@ class CreateMfgModel extends Component{
         return <div className='container' style={{margin:'15px'}}>
             <div className='row'>
                 <div className='col-md-4'>
-                    <h3>Add Car Model</h3>
-                    <label htmlFor="exampleInputEmail1">Manufacturer:</label>
+                    <h3 style={{margin: '20px 0px 20px'}}><em>Add Car Model</em></h3>
+                    <label htmlFor="exampleInputEmail1"><strong>Manufacturer:</strong></label>
                     <Select
                         value={this.state.modelMfgObject}
                         onChange={(e)=>{
@@ -81,7 +81,7 @@ class CreateMfgModel extends Component{
                         }}
                         options={this.state.mfgOption}
                     />
-                    <label htmlFor="exampleInputEmail1">Model Code:</label>
+                    <label htmlFor="exampleInputEmail1"><strong>Model Code:</strong></label>
                     <input
                         type="text" 
                         value={this.state.modelCode}

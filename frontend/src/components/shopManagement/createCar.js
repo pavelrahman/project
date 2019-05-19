@@ -30,7 +30,6 @@ class CreateCar extends Component{
     
     componentDidMount(){
         let tempList = JSON.parse(localStorage.getItem('model'));
-        console.log(tempList);
         let tempModelOption = [];
         if(tempList){
             tempList.forEach((model, index)=>{
@@ -77,8 +76,16 @@ class CreateCar extends Component{
 
     uploadImage(){
         let {fileList, fileLink} = this.state;
-        fileList.push(fileLink);
-        this.setState({fileList:fileList, fileLink:''});
+        if(fileLink){
+            if(fileList.length<3){
+                fileList.push(fileLink);
+                this.setState({fileList:fileList, fileLink:''});
+            }else{
+                alert('can not uploat more than 3 image');
+            }
+        }else{
+            alert('insert image url');
+        }
     }
 
     saveData(event){
@@ -102,12 +109,6 @@ class CreateCar extends Component{
             if(JSON.parse(localStorage.getItem('car'))){
                 if(tempList!==null){
                     tempList.forEach((car)=>{
-                        console.log(car.tagline.toLowerCase());
-                        console.log(tagline.toLowerCase());
-                        console.log(car.tagline.toLowerCase() === tagline.toLowerCase());
-                        console.log(car.model);
-                        console.log(this.state.modelList[model.value].modelCode.toLowerCase())
-                        // console.log(car.model.label.toLowerCase() === this.state.modelList[model.value].modelCode.toLowerCase());
                         if(car.tagline.toLowerCase() === tagline.toLowerCase() || car.model.modelCode.toLowerCase() === this.state.modelList[model.value].modelCode.toLowerCase()){
                             flag = true;
                         }
@@ -133,7 +134,8 @@ class CreateCar extends Component{
 
     render(){
         return <div className='container' style={{margin:'15px'}}>
-            <div className='row'><h3>Add Car</h3></div>
+            <div className='row' ><h3 style={{margin: '20px 0px 20px'}}><em>Add Car</em></h3></div>
+
             <div className='row'>
                 <div className='col-md-4' style={{paddingLeft:'0px'}}>
                     <label><strong>Tagline:</strong></label>

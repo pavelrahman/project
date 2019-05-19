@@ -26,7 +26,7 @@ class CreateMfg extends Component{
             mfgName:'',
             mfgCountry:'',
             mfgLogo:'',
-        })
+        });
     }
 
     saveData(){
@@ -43,10 +43,12 @@ class CreateMfg extends Component{
         });
         if(!flag){
             tempList.push(object);
+            alert('success');
         }else{alert('duplicate entry not allowed')}  
         
        }else{
            tempList.push(object);
+           alert('success');
        }
        if(mfgName!=='' && mfgCountry !=='' && mfgLogo!==''){
         localStorage.setItem('mfg',JSON.stringify(tempList));
@@ -54,16 +56,17 @@ class CreateMfg extends Component{
            alert('empty fields not allowed');
        }
        this.formClear();
+
     }
 
     render(){
         return <div className='container' style={{margin:'15px'}}>
             <div className='row'>
                 <div className='col-md-6'>
-                <h3>Add Manufacturer</h3>
+                <h3 style={{margin: '20px 0px 20px'}}><em>Add Manufacturer</em></h3>
                     
                         <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">Manufacturer name:</label>
+                            <label htmlFor="exampleInputEmail1"><strong>Name:</strong></label>
                             <input
                                 name="mfgName" 
                                 type="text" 
@@ -74,22 +77,22 @@ class CreateMfg extends Component{
                                 placeholder="Enter manufacturer name"/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">mfgCountry:</label>
+                            <label htmlFor="exampleInputEmail1"><strong>Country:</strong></label>
                             <input 
                                 type="text" 
                                 value={this.state.mfgCountry}
                                 onChange={(e)=>{this.setState({mfgCountry:e.target.value})}}
                                 className="form-control" 
-                                aria-describedby="emailHelp"placeholder="Enter mfgCountry"/>
+                                aria-describedby="emailHelp"placeholder="Enter manufacturer country"/>
                         </div>
                         <div className='form-group'>
-                            <label htmlFor="exampleInputEmail1">Add Logo URL:</label>
+                            <label htmlFor="exampleInputEmail1"><strong>Logo URL:</strong></label>
                             <input 
                                 type="text" 
                                 value={this.state.mfgLogo}
                                 onChange={(e)=>this.setState({mfgLogo: e.target.value})}
                                 className="form-control" 
-                                aria-describedby="emailHelp"placeholder="Enter mfgCountry"/>
+                                aria-describedby="emailHelp"placeholder="Enter manufacturer logo url"/>
                         </div>
                         {this.state.editMode?null:<button onClick={this.saveData.bind(this)} className='btn btn-primary'>Save</button>}
                     {this.state.editMode?<a href='/manufactorlist' className='btn btn-primary' onClick={this.updateManufacturer.bind(this, this.state.id)}>Update</a>:null}
