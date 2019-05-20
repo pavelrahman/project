@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import CarList from './shopManagement/carlist';
 import CreateMfg from './shopManagement/createMfg';
 import CreateMfgModel from './shopManagement/createMfgModel';
 import CreateCar from './shopManagement/createCar';
@@ -36,7 +35,6 @@ var NavBar = ()=>{
         </a>
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a className="dropdown-item" href="/manufacturerlist">Manufacturer</a>
-          <a className="dropdown-item" href="/modellist">Car Models</a>
           <a className="dropdown-item" href="/carlist">Cars</a>
         </div>
       </li>
