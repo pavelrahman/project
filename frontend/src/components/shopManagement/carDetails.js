@@ -9,7 +9,7 @@ let CarDetailForAllCar = (props)=>{
         return <div className={carouselClass} key={index}>
                     <img className="d-block w-100" src={image} alt="First slide"/>
                </div>
-    })
+    });
     return <div className="container">
                 <h1>{props.car.tagline}</h1>
 

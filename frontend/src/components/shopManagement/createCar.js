@@ -116,9 +116,11 @@ class CreateCar extends Component{
                 }
                 if(!flag){
                     tempList.push(object);
+                    alert('success');
                 }else{alert('duplicate entry not allowed')}
             }else{
                 tempList.push(object);
+                alert('success');
             }
             localStorage.setItem('car',JSON.stringify(tempList));
         }else{

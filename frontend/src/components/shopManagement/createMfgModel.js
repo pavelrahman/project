@@ -56,9 +56,11 @@ class CreateMfgModel extends Component{
                 }
                 if(!flag){
                     tempList.push(object);
+                    alert('success');
                 }else{alert('duplicate entry not allowed')}
             }else{
                 tempList.push(object);
+                alert('success');
             }
             localStorage.setItem('model',JSON.stringify(tempList));
         }else{
