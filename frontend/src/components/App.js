@@ -14,9 +14,7 @@ import CreateShowroom from './shopManagement/createShowroom';
 import CarDetails from './shopManagement/carDetails';
 import ShowroomList from './shopManagement/showroomList';
 
-var Home = ()=>{
-    return <div className='container'>THis is home page</div>
-}
+
 
 var NavBar = ()=>{
     return <nav className="navbar navbar-expand-lg navbar-light bg-light">
