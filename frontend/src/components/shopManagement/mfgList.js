@@ -24,15 +24,10 @@ class MfgList extends React.Component{
             mfgList:[],
             data:false,
         }
-
         this.deleteMfg = this.deleteMfg.bind(this);
-        this.editMfg = this.editMfg.bind(this);
         this.searchField.bind(this);
     }
 
-    editMfg(id){
-        
-    }
 
     searchField(e){
         let {mfgList} = this.state;
@@ -67,7 +62,7 @@ class MfgList extends React.Component{
 
     render(){
         let show = this.state.mfgList?this.state.mfgList.map((mfg, index)=>{
-            return <ManufacturerCard mfg={mfg} key={index} delete={this.deleteMfg.bind(this, index)} edit={this.editMfg.bind(this, index)}/>
+            return <ManufacturerCard mfg={mfg} key={index} delete={this.deleteMfg.bind(this, index)}/>
         }):null;
         return this.state.mfgList?<div className='container' style={{margin:'10px'}}>
         <input

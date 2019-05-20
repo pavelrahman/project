@@ -1,9 +1,6 @@
 import React from 'react'
 import Select from 'react-select';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import CardCar from './cardCar';
-import carsJSON from '../../data/cars.json';
-import showroomsJSON from '../../data/showrooms.json';
+
 
 let CarCard = (props)=>{
     let images = props.car.fileList.map((image, index)=>{
@@ -44,13 +41,9 @@ class CreateCarList extends React.Component{
         }
 
         this.details = this.details.bind(this);
-        this.editModel = this.editModel.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
-    editModel(id){
-        
-    }
 
     details(id, showroomId){
         this.props.history.push({
@@ -66,15 +59,13 @@ class CreateCarList extends React.Component{
     getAllCar(){
         let allShowroom = JSON.parse(localStorage.getItem('showroom'))||[];
         let tempList = [];
-
         if(allShowroom){
             allShowroom.forEach((showroom, index)=>{
                 showroom.showroomCars.forEach((car)=>{
                     tempList.push(car);
                 })
             });
-        }
-        
+        }       
         return tempList;
     }
 
@@ -102,7 +93,6 @@ class CreateCarList extends React.Component{
                 tempShowroomChoice.push({ value: index, label: showroom.showroomName });
             });
         }
-
         this.setState({
             carList:tempList,
             allCars:true,
@@ -112,13 +102,6 @@ class CreateCarList extends React.Component{
 
     render(){
         let id = this.state.showroomId;
-        let self = this;
-        const options = [
-            { value: 'all', label: 'all' },
-            { value: '0', label: 'John Does Showroom' },
-            { value: '1', label: '4 wheel Showroom' }
-        ];
-
         let show = this.state.carList.map((car, index)=>{
             return <CarCard showroomId={id} car={car} key={index} details={this.details.bind(this, index, this.state.showroomId)} edit={this.editModel.bind(this, car.id)}/>
         });

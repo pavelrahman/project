@@ -4,19 +4,16 @@ import Select from 'react-select';
 class CreateMfgModel extends Component{
     constructor(props){
         super(props);
-
         this.state={
             modelMfg:'',
             modelCode:'',
             modelMfgObject:null,
-
             mfgList:[],
             mfgOption:[],
         }
         this.saveData = this.saveData.bind(this);
         this.formClear = this.formClear.bind(this);
     }
-
 
 
     componentDidMount(){
@@ -33,13 +30,15 @@ class CreateMfgModel extends Component{
         });
     }
 
+
     formClear(){
         this.setState({
-            modelMfg:'',
+            modelMfgObject:{ value: 'select...', label: 'select...' },
             modelCode:'',
         })
     }
 
+    
     saveData(){
         let {modelMfg, modelCode} = this.state;
         let flag = false;

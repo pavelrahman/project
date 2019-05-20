@@ -16,16 +16,13 @@ class CreateCar extends Component{
             propellant:'',
             fileList:[],
             fileLink:'',
-
             modelList:[],
             modelOption:[],
         }
-        
         this.uploadFile = this.uploadFile.bind(this);
         this.uploadImage = this.uploadImage.bind(this)
         this.formClear = this.formClear.bind(this);
         this.saveData = this.saveData.bind(this);
-        this.update = this.update.bind(this);
     }
     
     componentDidMount(){
@@ -50,6 +47,8 @@ class CreateCar extends Component{
             price:'',
             horse_power:'',
             propellant:'',
+            model:{ value: 'select...', label: 'select...' },
+            transmission:{ value: 'select...', label: 'select...' },
         })
     }
 
@@ -87,6 +86,7 @@ class CreateCar extends Component{
             alert('insert image url');
         }
     }
+
 
     saveData(event){
         var {tagline, model, mileage, year, status, transmission, price, horse_power, propellant, fileList} =  this.state;
@@ -126,13 +126,9 @@ class CreateCar extends Component{
         }else{
             alert('fields can\'t be empty');
         }
-
         this.formClear();
     }
 
-    update(id){
-        console.log('update is calling');
-    }
 
     render(){
         return <div className='container' style={{margin:'15px'}}>
@@ -173,8 +169,6 @@ class CreateCar extends Component{
                         className="form-control"
                         placeholder="Enter manufacturer name"
                     />
-                    {/* <label><strong>Select Car Image</strong></label>
-                    <input className='form-control-file' type="file" onChange={(e) => this.uploadFile(e)} style={{marginTop:'10px'}} /> */}
                     <label><strong>Insert Car Image</strong></label>
                     <div className="input-group mb-3" style={{marginTop:'5px', marginBottom:'5px'}}>
                         <input value={this.state.fileLink} type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=>this.setState({fileLink:e.target.value})}/>

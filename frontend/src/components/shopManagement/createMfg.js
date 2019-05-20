@@ -7,7 +7,6 @@ import React, {Component} from 'react';
 class CreateMfg extends Component{
     constructor(props){
         super(props);
-
         this.state={
             mfgName:'',
             mfgCountry:'',
@@ -17,9 +16,6 @@ class CreateMfg extends Component{
         this.formClear = this.formClear.bind(this);
     }
 
-    componentDidMount(){
-        
-    }
 
     formClear(){
         this.setState({
@@ -29,34 +25,34 @@ class CreateMfg extends Component{
         });
     }
 
+
     saveData(){
        let {mfgName, mfgCountry, mfgLogo} = this.state;
        let flag = false;
        let tempList = JSON.parse(localStorage.getItem('mfg'))?JSON.parse(localStorage.getItem('mfg')):[];
        let object = {'mfgName':mfgName.toLowerCase(), 'mfgCountry':mfgCountry.toLowerCase(), 'mfgLogo': mfgLogo};
-       if(JSON.parse(localStorage.getItem('mfg'))){
-        tempList.forEach(mfg => {
-            console.log(mfg);
-            if(mfg.mfgName.toLocaleLowerCase() === mfgName.toLocaleLowerCase() && mfg.mfgLogo === mfgLogo){
-                flag = true;
-            }
-        });
-        if(!flag){
-            tempList.push(object);
-            alert('success');
-        }else{alert('duplicate entry not allowed')}  
-        
-       }else{
-           tempList.push(object);
-           alert('success');
-       }
        if(mfgName!=='' && mfgCountry !=='' && mfgLogo!==''){
-        localStorage.setItem('mfg',JSON.stringify(tempList));
+        if(JSON.parse(localStorage.getItem('mfg'))){
+            tempList.forEach(mfg => {
+                console.log(mfg);
+                if(mfg.mfgName.toLocaleLowerCase() === mfgName.toLocaleLowerCase() && mfg.mfgLogo === mfgLogo){
+                    flag = true;
+                }
+            });
+            if(!flag){
+                tempList.push(object);
+                alert('success');
+            }else{alert('duplicate entry not allowed')}  
+            
+           }else{
+               tempList.push(object);
+               alert('success');
+           }
+           localStorage.setItem('mfg',JSON.stringify(tempList));
        }else{
            alert('empty fields not allowed');
        }
        this.formClear();
-
     }
 
     render(){
@@ -94,8 +90,7 @@ class CreateMfg extends Component{
                                 className="form-control" 
                                 aria-describedby="emailHelp"placeholder="Enter manufacturer logo url"/>
                         </div>
-                        {this.state.editMode?null:<button onClick={this.saveData.bind(this)} className='btn btn-primary'>Save</button>}
-                    {this.state.editMode?<a href='/manufactorlist' className='btn btn-primary' onClick={this.updateManufacturer.bind(this, this.state.id)}>Update</a>:null}
+                        <button onClick={this.saveData.bind(this)} className='btn btn-primary'>Save</button>
                 </div>
             </div>
         </div>

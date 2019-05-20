@@ -18,12 +18,6 @@ class CreateShowroom extends Component{
 
         this.saveData = this.saveData.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.updateManufacturer = this.updateManufacturer.bind(this)
-    }
-
-
-    updateManufacturer(){
-
     }
 
     componentDidMount(){
@@ -35,7 +29,6 @@ class CreateShowroom extends Component{
             })
             this.setState({allCars:allCars, carOptions:tempList});
         }
-        
     }
 
 
@@ -77,8 +70,6 @@ class CreateShowroom extends Component{
         }else{
             alert('fields can\'t be empty');
         }
-
-
     }
 
     render(){
