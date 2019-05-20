@@ -18,6 +18,7 @@ class CreateShowroom extends Component{
 
         this.saveData = this.saveData.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.formClear = this.formClear.bind(this);
     }
 
     componentDidMount(){
@@ -31,6 +32,14 @@ class CreateShowroom extends Component{
         }
     }
 
+    formClear(){
+        this.setState({
+            showroomName:'',
+            showroomAddress:'',
+            showroomOwner:'',
+            showroomLogo:'',
+        });
+    }
 
     handleChange(e){
         var self = this;
@@ -70,6 +79,7 @@ class CreateShowroom extends Component{
         }else{
             alert('fields can\'t be empty');
         }
+        this.formClear();
     }
 
     render(){
@@ -81,7 +91,7 @@ class CreateShowroom extends Component{
                 <input
                     name="manufacturer_name" 
                     type="text" 
-                    value={this.state.showroom_name}
+                    value={this.state.showroomName}
                     onChange={(e)=>{this.setState({showroomName:e.target.value})}}
                     className="form-control"
                     aria-describedby="emailHelp"
@@ -92,7 +102,7 @@ class CreateShowroom extends Component{
                 <input
                     name="manufacturer_name" 
                     type="text" 
-                    value={this.state.address}
+                    value={this.state.showroomAddress}
                     onChange={(e)=>{this.setState({showroomAddress:e.target.value})}}
                     className="form-control"
                     aria-describedby="emailHelp"
@@ -103,7 +113,7 @@ class CreateShowroom extends Component{
                 <input
                     name="manufacturer_name" 
                     type="text" 
-                    value={this.state.owner}
+                    value={this.state.showroomOwner}
                     onChange={(e)=>{this.setState({showroomOwner:e.target.value})}}
                     className="form-control"
                     aria-describedby="emailHelp"

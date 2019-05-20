@@ -103,7 +103,7 @@ class CreateCarList extends React.Component{
     render(){
         let id = this.state.showroomId;
         let show = this.state.carList.map((car, index)=>{
-            return <CarCard showroomId={id} car={car} key={index} details={this.details.bind(this, index, this.state.showroomId)} edit={this.editModel.bind(this, car.id)}/>
+            return <CarCard showroomId={id} car={car} key={index} details={this.details.bind(this, index, this.state.showroomId)}/>
         });
         return <div className='container' style={{margin:'10px'}}>
             <Select

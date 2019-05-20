@@ -49,6 +49,7 @@ class CreateCar extends Component{
             propellant:'',
             model:{ value: 'select...', label: 'select...' },
             transmission:{ value: 'select...', label: 'select...' },
+            fileList:[],
         })
     }
 
