@@ -1,6 +1,7 @@
 import Layout from '../components/Layout';
 import Container from '../components/Container';
 import React, {Component} from 'react';
+import Validate from '../components/Validate';
 
   class Login extends Component {
     constructor(props){
@@ -16,32 +17,31 @@ import React, {Component} from 'react';
     }
 
     checkFormValidation(type, e){
-
         if(type==='name'){
             const regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-            this.validate(regex, e)?this.setState({invalidName:true}):this.setState({invalidName:false});
+            Validate(regex, e) ?this.setState({invalidName:true}):this.setState({invalidName:false});
         }else if(type === 'country'){
             const regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-            this.validate(regex, e)?this.setState({invalidCountry:true}):this.setState({invalidCountry:false});
+            Validate(regex, e) ?this.setState({invalidCountry:true}):this.setState({invalidCountry:false});
         }
     }
 
-    validate(regex, e){
-        let input = e.target.value;
-        if(input){
-            let valid = regex.test(input);
-            if(!valid){
-                e.target.style.border = '3px solid red';
-                return true;
-            }else{
-                e.target.style.border = '1px solid #D3D3D3';
-                return false;
-            }
-        }else{
-            e.target.style.border = '1px solid #D3D3D3';
-            return false;
-        }
-    }
+    // validate(regex, e){
+    //     let input = e.target.value;
+    //     if(input){
+    //         let valid = regex.test(input);
+    //         if(!valid){
+    //             e.target.style.border = '3px solid red';
+    //             return true;
+    //         }else{
+    //             e.target.style.border = '1px solid #D3D3D3';
+    //             return false;
+    //         }
+    //     }else{
+    //         e.target.style.border = '1px solid #D3D3D3';
+    //         return false;
+    //     }
+    // }
 
     onSubmit(){
         event.preventDefault();
@@ -72,7 +72,10 @@ import React, {Component} from 'react';
                                         this.setState({name:e.target.value});
                                         this.checkFormValidation('name',e);
                                         }} placeholder="Enter name"/>
-                                    {this.state.invalidName?<small style={{color:'red'}}>This is not a valid name</small>:null}
+                                    {this.state.invalidName?<small style={{color:'red'}}>
+                                            <ul style={{listStyle:'none', padding:'0px'}}>
+                                                <li>* This is not a valid name</li>
+                                            </ul></small>:null}
                                 </div>
                                 <div className="form-group">
                                     <label>Country</label>
@@ -80,7 +83,10 @@ import React, {Component} from 'react';
                                         this.setState({country:e.target.value});
                                         this.checkFormValidation('country',e);
                                         }} placeholder="Enter country"/>
-                                    {this.state.invalidCountry?<small style={{color:'red'}}>This is not a valid country name</small>:null}
+                                    {this.state.invalidCountry?<small style={{color:'red'}}>
+                                            <ul style={{listStyle:'none', padding:'0px'}}>
+                                                <li>* This is not a valid country</li>
+                                            </ul></small>:null}
                                 </div>
 
                                 <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Save</button>

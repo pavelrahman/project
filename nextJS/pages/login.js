@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
 import Container from '../components/Container';
 import React, {Component} from 'react';
-
+import Validate from '../components/Validate'
 
   class Login extends Component {
     constructor(props){
@@ -10,6 +10,7 @@ import React, {Component} from 'react';
             email:'',
             password:'',
             invalidEmail:false,
+            invalidPassword:false,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.checkFormValidation = this.checkFormValidation.bind(this);
@@ -19,26 +20,29 @@ import React, {Component} from 'react';
 
         if(type==='email'){
             const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-            this.validate(regex, e)?this.setState({invalidEmail:true}):this.setState({invalidEmail:false});
+            Validate(regex, e)?this.setState({invalidEmail:true}):this.setState({invalidEmail:false});
+        }else if(type === 'password'){
+            const regex = /^[a-zA-Z]\w{3,14}$/;
+            Validate(regex, e)?this.setState({invalidPassword:true}):this.setState({invalidPassword:false});
         }
     }
 
-    validate(regex, e){
-        let input = e.target.value;
-        if(input){
-            let valid = regex.test(input);
-            if(!valid){
-                e.target.style.border = '3px solid red';
-                return true;
-            }else{
-                e.target.style.border = '1px solid #D3D3D3';
-                return false;
-            }
-        }else{
-            e.target.style.border = '1px solid #D3D3D3';
-            return false;
-        }
-    }
+    // validate(regex, e){
+    //     let input = e.target.value;
+    //     if(input){
+    //         let valid = regex.test(input);
+    //         if(!valid){
+    //             e.target.style.border = '3px solid red';
+    //             return true;
+    //         }else{
+    //             e.target.style.border = '1px solid #D3D3D3';
+    //             return false;
+    //         }
+    //     }else{
+    //         e.target.style.border = '1px solid #D3D3D3';
+    //         return false;
+    //     }
+    // }
 
     onSubmit(){
         event.preventDefault();
@@ -70,13 +74,23 @@ import React, {Component} from 'react';
                                         }}
                                         onBlur={(e)=>{this.checkFormValidation('email',e)}}
                                         placeholder="Enter email"/>
-                                    {this.state.invalidEmail?<small style={{color:'red'}}>This is not a valid email address</small>:null}
+                                    {this.state.invalidEmail?<small style={{color:'red'}}>
+                                            <ul style={{listStyle:'none', padding:'0px'}}>
+                                                <li>* This is not a valid email address</li>
+                                            </ul></small>:null}
                                 </div>
                                 <div className="form-group">
                                     <label>Password</label>
                                     <input type="password" className="form-control" onChange={(e)=>{
                                         this.setState({password:e.target.value});
-                                        }} placeholder="Password"/>
+                                        }} 
+                                        onBlur={(e)=>{this.checkFormValidation('password',e)}}
+                                        placeholder="Password"/>
+                                        {this.state.invalidPassword?<small style={{color:'red'}}>
+                                            <ul style={{listStyle:'none', padding:'0px'}}>
+                                                <li>* Password first character must be a letter</li>
+                                                <li>* Password must contain at least 4 characters and no more than 15 characters</li>
+                                            </ul></small>:null}
                                 </div>
 
                                 <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Login</button>
