@@ -79,7 +79,7 @@ import React, {Component} from 'react';
                                         }} placeholder="Password"/>
                                 </div>
 
-                                <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Submit</button>
+                                <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Login</button>
                             </form>
                             </div>
                         </div>

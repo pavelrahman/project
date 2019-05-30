@@ -20,7 +20,7 @@ let Navbar = ()=>(
             Add
           </a>
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a className="dropdown-item" href="#">Car Mnufacturer</a>
+            <a className="dropdown-item" href="/add-manufacturer">Car Mnufacturer</a>
             <a className="dropdown-item" href="#">Car Model</a>
             <a className="dropdown-item" href="#">Car</a>
             <div className="dropdown-divider"></div>

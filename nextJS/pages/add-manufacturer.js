@@ -6,42 +6,51 @@ import React, {Component} from 'react';
     constructor(props){
         super(props);
         this.state = {
-            email:'',
-            password:'',
-            invalidEmail:false,
+            name:'',
+            country:'',
+            invalidName:false,
+            invalidCountry:false,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.checkFormValidation = this.checkFormValidation.bind(this);
     }
 
     checkFormValidation(type, e){
-        if(type==='email'){
-            let email = e.target.value;
-            if(email){
-                const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-                let res = regexEmail.test(this.state.email);
-                if(!res){
-                    e.target.style.border = '1.3px solid red';
-                    this.setState({invalidEmail:true});   
-                }else{
-                    e.target.style.borderColor = '#D3D3D3';
-                    this.setState({invalidEmail:false});
-                }
+
+        if(type==='name'){
+            const regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+            this.validate(regex, e)?this.setState({invalidName:true}):this.setState({invalidName:false});
+        }else if(type === 'country'){
+            const regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+            this.validate(regex, e)?this.setState({invalidCountry:true}):this.setState({invalidCountry:false});
+        }
+    }
+
+    validate(regex, e){
+        let input = e.target.value;
+        if(input){
+            let valid = regex.test(input);
+            if(!valid){
+                e.target.style.border = '3px solid red';
+                return true;
             }else{
-                e.target.style.borderColor = '#D3D3D3';
-                this.setState({invalidEmail:false});
+                e.target.style.border = '1px solid #D3D3D3';
+                return false;
             }
+        }else{
+            e.target.style.border = '1px solid #D3D3D3';
+            return false;
         }
     }
 
     onSubmit(){
         event.preventDefault();
-        let {email, password, invalidEmail} = this.state;
-        if(invalidEmail){
+        let {name, country, invalidName, invalidCountry} = this.state;
+        if(invalidName || invalidCountry){
             alert('invalid input problem');
         }else{
-            if(password && email){
-                console.log(`Email: ${email}\nPassword: ${password}`);
+            if(name && country){
+                console.log(`Name: ${name}\nCountry: ${country}`);
             }else{
                 alert('can\'t allow empty field' );
             }
@@ -54,25 +63,27 @@ import React, {Component} from 'react';
 
                     <div className="card shadow p-1 mb-6 bg-white rounded" style={{width: '30rem', margin:'50px auto'}}>
                         <div className="card-body" style={{backgroundColor:'white'}}>
-                            <h3 className="card-title text-center">Login</h3>
+                            <h3 className="card-title text-center">Add Manufacturer</h3>
                             <div className='row'>
                             <form style={{margin:'20px auto', width:'400px'}}>
                                 <div className="form-group">
-                                    <label>Email address</label>
-                                    <input type="email" className="form-control"  onChange={(e)=>{
-                                        this.setState({email:e.target.value});
-                                        this.checkFormValidation('email',e);
-                                        }} placeholder="Enter email"/>
-                                    {this.state.invalidEmail?<small style={{color:'red'}}>This is not a valid email address</small>:null}
+                                    <label>Name</label>
+                                    <input type="text" className="form-control"  onChange={(e)=>{
+                                        this.setState({name:e.target.value});
+                                        this.checkFormValidation('name',e);
+                                        }} placeholder="Enter name"/>
+                                    {this.state.invalidName?<small style={{color:'red'}}>This is not a valid name</small>:null}
                                 </div>
                                 <div className="form-group">
-                                    <label>Password</label>
-                                    <input type="password" className="form-control" onChange={(e)=>{
-                                        this.setState({password:e.target.value});
-                                        }} placeholder="Password"/>
+                                    <label>Country</label>
+                                    <input type="text" className="form-control"  onChange={(e)=>{
+                                        this.setState({country:e.target.value});
+                                        this.checkFormValidation('country',e);
+                                        }} placeholder="Enter country"/>
+                                    {this.state.invalidCountry?<small style={{color:'red'}}>This is not a valid country name</small>:null}
                                 </div>
 
-                                <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Submit</button>
+                                <button  className="btn btn-primary" onClick={this.onSubmit.bind(this)} style={{width:'400px'}}>Save</button>
                             </form>
                             </div>
                         </div>
