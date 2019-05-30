@@ -2,7 +2,6 @@ import Layout from '../components/Layout';
 import Container from '../components/Container';
 import React, {Component} from 'react';
 
-
   class Login extends Component {
     constructor(props){
         super(props);
@@ -16,27 +15,22 @@ import React, {Component} from 'react';
     }
 
     checkFormValidation(type, e){
-
         if(type==='email'){
-            const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-            this.validate(regex, e)?this.setState({invalidEmail:true}):this.setState({invalidEmail:false});
-        }
-    }
-
-    validate(regex, e){
-        let input = e.target.value;
-        if(input){
-            let valid = regex.test(input);
-            if(!valid){
-                e.target.style.border = '3px solid red';
-                return true;
+            let email = e.target.value;
+            if(email){
+                const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                let res = regexEmail.test(this.state.email);
+                if(!res){
+                    e.target.style.border = '1.3px solid red';
+                    this.setState({invalidEmail:true});   
+                }else{
+                    e.target.style.borderColor = '#D3D3D3';
+                    this.setState({invalidEmail:false});
+                }
             }else{
-                e.target.style.border = '1px solid #D3D3D3';
-                return false;
+                e.target.style.borderColor = '#D3D3D3';
+                this.setState({invalidEmail:false});
             }
-        }else{
-            e.target.style.border = '1px solid #D3D3D3';
-            return false;
         }
     }
 
@@ -67,9 +61,8 @@ import React, {Component} from 'react';
                                     <label>Email address</label>
                                     <input type="email" className="form-control"  onChange={(e)=>{
                                         this.setState({email:e.target.value});
-                                        }}
-                                        onBlur={(e)=>{this.checkFormValidation('email',e)}}
-                                        placeholder="Enter email"/>
+                                        this.checkFormValidation('email',e);
+                                        }} placeholder="Enter email"/>
                                     {this.state.invalidEmail?<small style={{color:'red'}}>This is not a valid email address</small>:null}
                                 </div>
                                 <div className="form-group">
