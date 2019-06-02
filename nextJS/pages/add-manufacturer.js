@@ -3,7 +3,7 @@ import Container from '../components/Container';
 import React, {Component} from 'react';
 import Validate from '../components/Validate';
 
-  class Login extends Component {
+  class Manufacturer extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -58,7 +58,7 @@ import Validate from '../components/Validate';
     }
 
     render() {
-      return <Layout title={'Login'}>
+      return <Layout title={'Manufacturer'}>
                 <Container>
 
                     <div className="card shadow p-1 mb-6 bg-white rounded" style={{width: '30rem', margin:'50px auto'}}>
@@ -100,4 +100,4 @@ import Validate from '../components/Validate';
     }
   }
 
-  export default Login;
+  export default Manufacturer;
