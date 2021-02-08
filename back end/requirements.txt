@@ -16,7 +16,7 @@ django-cors-headers==3.0.0
 django-filter==2.1.0
 djangorestframework==3.9.4
 entrypoints==0.2.3.post3
-httplib2==0.11.3
+httplib2==0.19.0
 idna==2.6
 isort==4.3.17
 keyring==15.1.0
